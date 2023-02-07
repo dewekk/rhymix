@@ -95,12 +95,12 @@ spl_autoload_register(function($class_name)
 	$filename = false;
 	$langpath = false;
 	$lc_class_name = str_replace('\\', '/', strtolower($class_name));
-	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/(.+)$!', $lc_class_name, $matches))
+	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/([^/]+)/?(.+)?$!', $lc_class_name, $matches))
 	{
-		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . '.php';
+		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . (!empty($matches[3]) ? ('/' . $matches[3]) : '') . '.php';
 		if ($matches[1] !== 'framework')
 		{
-			$langpath = RX_BASEDIR . $matches[1] . '/lang';
+			$langpath = RX_BASEDIR . $matches[1] . '/' . $matches[2] . '/lang';
 		}
 	}
 	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
